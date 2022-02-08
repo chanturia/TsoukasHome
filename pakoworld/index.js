@@ -2,6 +2,7 @@ import convert from "xml-js"
 import https from 'https'
 import fs from 'fs'
 import Yargs from 'yargs'
+import axios from "axios";
 
 const args = Yargs(process.argv).argv
 const XML_link = "https://www.pakoworld.com/?route=extension%2Ffeed%2Fcsxml_feed&token=MTQ4NTlMUDI4MA%3D%3D&lang=el&fbclid=IwAR2faAQyDtKJhwKOamSa8qPvH2R0d9h9x9DArj1Oed743MLrIuwHIQDs5gE"
@@ -115,18 +116,13 @@ function generateLocalXmlFile(xml) {
 }
 
 async function getXMLFromUrl() {
-    let xml = '';
     console.time('time')
-    https.get(XML_link, response => {
-        response.on('data', function (chunk) {
-            xml += chunk;
-        });
-        response.on('end', function () {
-            fs.writeFileSync('originalXML.xml', xml, "utf-8")
-            generateLocalXmlFile(xml)
+    axios.get(XML_link, {responseType: 'blob'})
+        .then(response => {
+            fs.writeFileSync('originalXML.xml', response.data, "utf-8")
+            generateLocalXmlFile(response.data)
             console.timeEnd('time')
-        });
-    })
+        })
 }
 
 async function getXMLFromFile(fileName) {
