@@ -94,6 +94,7 @@ function generateLocalXmlFile(xml) {
             if (product.description._cdata) {
                 product.description._cdata = product.description._cdata
                     .replace('<img src="/image/catalog/Icons/assembly-icon.png" style="border-width: 0px; border-style: solid; margin-left: 3px; margin-right: 3px; float: left; height: 35px; width: 35px;" valign="center" alt="Οδηγίες συναρμολόγησης" title="Οδηγίες συναρμολόγησης"><br /><br />', "")
+                    .replace('href="/image/catalog/manuals/"', 'href="https://www.pakoworld.com/image/catalog/manuals/"')
                     .replace(/\s+/g, ' ').trim();
             }
         })
@@ -129,8 +130,10 @@ async function getXMLFromUrl() {
 }
 
 async function getXMLFromFile(fileName) {
+    console.time('time')
     const xmlData = fs.readFileSync(fileName, 'utf8')
     generateLocalXmlFile(xmlData)
+    console.timeEnd('time')
 }
 
 if (args.type === 'file') {
