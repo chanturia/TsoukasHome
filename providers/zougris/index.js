@@ -1,12 +1,12 @@
 import convert from "xml-js"
-import https from 'https'
 import fs from 'fs'
 import Yargs from 'yargs'
 import axios from "axios";
 
 const args = Yargs(process.argv).argv
-const XML_link = "https://www.pakoworld.com/?route=extension%2Ffeed%2Fcsxml_feed&token=MTQ4NTlMUDI4MA%3D%3D&lang=el&fbclid=IwAR2faAQyDtKJhwKOamSa8qPvH2R0d9h9x9DArj1Oed743MLrIuwHIQDs5gE"
-
+const XML_link = "https://www.zougris.gr/Content/files/ExportImport/xmlfeed.xml"
+const newXMLPath = './providers/zougris/newXML.xml'
+const originalXMLPath = './providers/zougris/originalXML.xml'
 
 function generateLocalXmlFile(xml) {
     let xml2js = convert.xml2js(xml, {compact: true, spaces: 4});
@@ -82,6 +82,8 @@ function generateLocalXmlFile(xml) {
         "Έπιπλα εσωτερικού χώρου > Πουφ",
         "Έπιπλα εσωτερικού χώρου > Σκαμπό μπαρ",
     ]
+    console.log(xml2js)
+    return
     xml2js.pakoworld.products.product.map(product => {
         replaceableObjects.map(item => {
             if (product.category._cdata === item.from) {
@@ -111,7 +113,7 @@ function generateLocalXmlFile(xml) {
 
     const js2xml = convert.js2xml(xml2js, {compact: true, ignoreComment: true, spaces: 4});
 
-    fs.writeFileSync('newXML.xml', js2xml)
+    fs.writeFileSync(newXMLPath, js2xml)
 
 }
 
@@ -119,7 +121,7 @@ async function getXMLFromUrl() {
     console.time('time')
     axios.get(XML_link, {responseType: 'blob'})
         .then(response => {
-            fs.writeFileSync('originalXML.xml', response.data, "utf-8")
+            fs.writeFileSync(originalXMLPath, response.data, "utf-8")
             generateLocalXmlFile(response.data)
             console.timeEnd('time')
         })
@@ -133,8 +135,8 @@ async function getXMLFromFile(fileName) {
 }
 
 if (args.type === 'file') {
-    if (fs.existsSync('originalXML.xml')) {
-        getXMLFromFile('originalXML.xml').then()
+    if (fs.existsSync(originalXMLPath)) {
+        getXMLFromFile(originalXMLPath).then()
     } else {
         getXMLFromUrl().then()
     }

@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "start-with-external-url": "node index.js --filter=off --type=url",
+    "start-pakoworld": "node index.js --provider=pakoworld --filter=off --type=url",
     "start-local-file": "node index.js --filter=on --type=file",
     "start-with-filter-on-and-external-url": "node index.js --filter=on --type=url",
     "start-with-filter-on-and-local-file": "node index.js --filter=on --type=file"

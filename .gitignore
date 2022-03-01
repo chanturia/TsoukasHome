@@ -104,5 +104,4 @@ dist
 .tern-port
 
 #Extra
-/pakoworld/newXML.xml
-/pakoworld/originalXML.xml
+*.xml
