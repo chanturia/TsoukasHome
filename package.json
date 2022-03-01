@@ -5,11 +5,12 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start-with-external-url": "node index.js --filter=off --type=url",
-    "start-pakoworld": "node index.js --provider=pakoworld --filter=off --type=url",
-    "start-local-file": "node index.js --filter=on --type=file",
-    "start-with-filter-on-and-external-url": "node index.js --filter=on --type=url",
-    "start-with-filter-on-and-local-file": "node index.js --filter=on --type=file"
+    "start-woodwell-url": "node index.js --provider=woodwell --filter=on --type=url",
+    "start-woodwell-local": "node index.js --provider=woodwell --filter=on --type=file",
+    "start-pakoworld-url": "node index.js --provider=pakoworld --filter=on --type=url",
+    "start-pakoworld-local": "node index.js --provider=pakoworld --filter=on --type=file",
+    "start-zougris-url": "node index.js --provider=zougris --filter=on --type=url",
+    "start-zougris-local": "node index.js --provider=zougris --filter=on --type=file"
   },
   "keywords": [],
   "author": "",
