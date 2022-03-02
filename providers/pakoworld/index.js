@@ -105,6 +105,7 @@ function generateLocalXmlFile(xml) {
             }
         })
     }
+    console.log(`${xml2js.pakoworld.products.product.length} Products`)
 
     const js2xml = convert.js2xml(xml2js, {compact: true, ignoreComment: true, spaces: 4});
 
@@ -130,7 +131,7 @@ async function getXMLFromFile(fileName) {
 }
 
 
-export default function initPakoworldt() {
+export default function initPakoworld() {
     if (args.type === 'file') {
         if (fs.existsSync(originalXMLPath)) {
             getXMLFromFile(originalXMLPath).then()

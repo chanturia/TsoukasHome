@@ -4,117 +4,124 @@ import Yargs from 'yargs'
 import axios from "axios";
 
 const args = Yargs(process.argv).argv
-const XML_link = "https://www.zougris.gr/Content/files/ExportImport/xmlfeed.xml"
-const newXMLPath = './providers/zougris/newXML.xml'
-const originalXMLPath = './providers/zougris/originalXML.xml'
+const XML_link = "https://www.woodwell.gr/services/ProductsXmlFeedLang.ashx?username=150545619&lang=el&xmlFeedKey=67457717-384c-497f-9185-f1103cb8f33f"
+const newXMLPath = './providers/woodwell/newXML.xml'
+const originalXMLPath = './providers/woodwell/originalXML.xml'
+
 
 function generateLocalXmlFile(xml) {
     let xml2js = convert.xml2js(xml, {compact: true, spaces: 4});
 
     const replaceableObjects = [
-        {from: "Έπιπλα εσωτερικού χώρου > Ντουλάπες ρούχων", to: "Epipla-esoterikou-xorou>ntoulapes"},
-        {from: "Διακόσμηση", to: "diakosmisi"},
-        {from: "Έπιπλα γραφείου > Βιβλιοθήκες γραφείου", to: "voithitika-epipla>vivliothikes"},
-        {from: "Έπιπλα γραφείου > Γραφεία διευθυντικά", to: "epipla-grafeiou>grafeia"},
-        {from: "Έπιπλα γραφείου > Γραφεία εργασίας", to: "epipla-grafeiou>grafeia"},
-        {from: "Έπιπλα γραφείου > Καναπέδες γραφείου", to: "epipla-grafeiou>kanapedes"},
-        {from: "Έπιπλα γραφείου > Καρέκλες γραφείου Gaming - Βucket", to: "epipla-grafeiou>karekles-grafeiou"},
-        {from: "Έπιπλα γραφείου > Καρέκλες γραφείου διευθυντή", to: "epipla-grafeiou>karekles-grafeiou"},
-        {
-            from: "Έπιπλα γραφείου > Καρέκλες γραφείου διευθυντή SUPREME QUALITY",
-            to: "epipla-grafeiou>karekles-grafeiou"
-        },
-        {from: "Έπιπλα γραφείου > Καρέκλες γραφείου επισκέπτη", to: "epipla-grafeiou>karekles-ipodoxis"},
-        {from: "Έπιπλα γραφείου > Καρέκλες γραφείου εργασίας", to: "epipla-grafeiou>karekles-grafeiou"},
-        {from: "Έπιπλα γραφείου > Ντουλάπες γραφείου", to: "epipla-grafeiou>ntoulapes-grafeiou"},
-        {from: "Έπιπλα εξωτερικού χώρου > Καρέκλες κήπου", to: "epipla-eksoterikou-xorou>karekles-kipou"},
-        {from: "Έπιπλα εξωτερικού χώρου > Πολυθρόνες κήπου", to: "epipla-eksoterikou-xorou>karekles-kipou"},
-        {from: "Έπιπλα εξωτερικού χώρου > Σαλόνια κήπου", to: "epipla-eksoterikou-xorou>salonia-kipou"},
-        {from: "Έπιπλα εξωτερικού χώρου > Σετ τραπεζαρία κήπου", to: "epipla-eksoterikou-xorou>-set-trapezia-kipou"},
-        {from: "Έπιπλα εξωτερικού χώρου > Τραπέζια Φαγητού κήπου", to: "epipla-eksoterikou-xorou>trapezia-kipou"},
-        {from: "Έπιπλα εσωτερικού χώρου > Βιβλιοθήκες", to: "voithitika-epipla>vivliothikes"},
-        {from: "Έπιπλα εσωτερικού χώρου > Βιτρίνες", to: "epipla-esoterikou-xorou>vitrines"},
-        {from: "Έπιπλα εσωτερικού χώρου > Έπιπλα εισόδου", to: "voithitika-epipla>epipla-eisodou"},
-        {from: "Έπιπλα εσωτερικού χώρου > Έπιπλα τηλεόρασης", to: "epipla-esoterikou-xorou>epipla-tileorasis"},
-        {from: "Έπιπλα εσωτερικού χώρου > Καναπέδες", to: "epipla-esoterikou-xorou>kanapedes"},
-        {from: "Έπιπλα εσωτερικού χώρου > Καναπέδες - Κρεβάτι", to: "epipla-esoterikou-xorou>kanapedes"},
-        {from: "Έπιπλα εσωτερικού χώρου > Καναπέδες γωνιακοί", to: "epipla-esoterikou-xorou>salonia"},
-        {from: "Έπιπλα εσωτερικού χώρου > Καρέκλες", to: "epipla-esoterikou-xorou>karekles"},
-        {from: "Έπιπλα εσωτερικού χώρου > Κομοδίνα", to: "voithitika-epipla>komodina"},
-        {from: "Έπιπλα εσωτερικού χώρου > Κρεβάτια", to: "epipla-esoterikou-xorou>krevatia"},
-        {from: "Έπιπλα εσωτερικού χώρου > Μπουφέδες", to: "epipla-esoterikou-xorou>mpoufedes"},
-        {from: "Έπιπλα εσωτερικού χώρου > Παπουτσοθήκες", to: "voithitika-epipla>papoutsothikes"},
-        {from: "Έπιπλα εσωτερικού χώρου > Πολυθρόνες - Κρεβάτι", to: "epipla-esoterikou-xorou>polithrones"},
-        {from: "Έπιπλα εσωτερικού χώρου > Πολυθρόνες σαλονιού", to: "epipla-esoterikou-xorou>polithrones"},
-        {from: "Έπιπλα εσωτερικού χώρου > Πολυθρόνες τραπεζαρίας", to: "epipla-esoterikou-xorou>karekles"},
-        {from: "Έπιπλα εσωτερικού χώρου > Ραφιέρες τοίχου", to: "voithitika-epipla>rafieres-toixou"},
-        {from: "Έπιπλα εσωτερικού χώρου > Σετ τραπεζαρίες", to: "epipla-esoterikou-xorou>trapezaries"},
-        {from: "Έπιπλα εσωτερικού χώρου > Σκαμπό", to: "voithitika-epipla>skampo"},
-        {from: "Έπιπλα εσωτερικού χώρου > Στρώματα ύπνου & Σομιέδες", to: "voithitika-epipla>stromata"},
-        {from: "Έπιπλα εσωτερικού χώρου > Συνθέσεις σαλονιού", to: "epipla-esoterikou-xorou>sintheseis-saloniou"},
-        {from: "Έπιπλα εσωτερικού χώρου > Συρταριέρες - Κονσόλες", to: "voithitika-epipla>sirtarieres"},
-        {from: "Έπιπλα εσωτερικού χώρου > Τραπεζάκια βοηθητικά", to: "voithitika-epipla>trapezakia"},
-        {from: "Έπιπλα εσωτερικού χώρου > Τραπεζάκια σαλονιού", to: "epipla-esoterikou-xorou>trapezakia-saloniou"},
-        {from: "Έπιπλα εσωτερικού χώρου > Τραπέζια", to: "epipla-esoterikou-xorou>trapezia"},
-        {from: "Φωτισμός > Απλίκες", to: "fotismos>fotistika-aplikes"},
-        {from: "Φωτισμός > Δαπέδου", to: "fotismos>fotistika-dapedou"},
-        {from: "Φωτισμός > Επιτραπέζια", to: "fotismos>fotistika-epitrapezia"},
-        {from: "Φωτισμός > Οροφής", to: "fotismos>fotistika-orofis"},
+        {from: "Καναπέδες Γωνία-Πολυμορφικοί", to: "Καναπέδες Γωνιακοί"},
+        {from: "Καναπέδες-Πολυθρόνες-Σκαμπώ / Κρεβάτι", to: "Καναπέδες - Κρεβάτι"},
+        {from: "Τραπεζάκια Σαλονιού & Βοηθητικά", to: "Τραπεζάκια Σαλονιού"},
+        {from: "Έπιπλα TV - Κονσόλες", to: "Έπιπλα Τηλεόρασης"},
+        {from: "Τραπέζια", to: "Τραπέζια"},
+        {from: "Καθίσματα", to: "Καρέκλες"},
+        {from: "Καρέκλες", to: "Καρέκλες"},
+        {from: "Τραπεζαρίες set", to: "Σετ Τραπεζαρίες"},
+        {from: "Κρεβάτια-Υποστρώματα-Set Υπνοδωμάτιο", to: "Κρεβάτια"},
+        {from: "Στρώματα - Επιστρώματα - Μαξιλάρια", to: "Στρώματα "},
+        {from: "Σκαμπώ Αποθήκευσης & Βοηθητικά", to: "Σκαμπό"},
+        {from: "Set Καθιστικά - Τραπεζαρίες", to: "Σαλόνια Κήπου"},
+        {from: "Καθίσματα Διευθυντικά", to: "Καρέκλες Διευθυντικές"},
+        {from: "Καθίσματα Εργασίας / Μαθητείας", to: "Καρέκλες Γραφείου"},
+        {from: "Καναπέδες & Καθίσματα Υποδοχής", to: "Καρέκλες Υποδοχής"},
+        {from: "Γραφεία - Τραπέζια Συνεδρίου", to: "Γραφεία"},
+        {from: "Καναπέδες-Πολυθρόνες & Σκαμπώ Κρεβάτι", to: "Γραφεία"},
+        {from: "Μπουφέδες - Βιβλιοθήκες - Ραφιέρες - Βιτρίνες", to: "Γραφεία"},
+        {from: "Κομοδίνα-Συρταριέρες-Τουαλέτες-Ντουλάπες", to: "Γραφεία"},
+        {from: "Παπουτσοθήκες-Καλόγεροι-Καθρέπτες", to: ""},
+        {from: "Καναπέδες - Καρέκλες - Πολυθρόνες", to: ""},
+        {from: "Σαλόνια-Καναπέδες-Πολυθρόνες-Μπερζέρες-Ταμπουρέ", to: ""},
     ]
-
-    const filteredObject = [
-        "Είδη ταξιδίου > Βαλίτσες ταξιδίου",
-        "Είδη ταξιδίου > Σακίδια πλάτης - Backpacks",
-        "Έπιπλα γραφείου > Reception γραφείου",
-        "Έπιπλα γραφείου > Καρέκλες γραφείου παιδικές",
-        "Έπιπλα γραφείου > Ντουλάπια γραφείου",
-        "Έπιπλα γραφείου > Πολυθρόνες γραφείου",
-        "Έπιπλα γραφείου > Συρταριέρες γραφείου",
-        "Έπιπλα γραφείου > Τραπεζάκια γραφείου",
-        "Έπιπλα γραφείου > Τραπέζια συνεδρίου",
-        "Έπιπλα εξωτερικού χώρου > Έπιπλα catering - συνεδρίου",
-        "Έπιπλα εξωτερικού χώρου > Κούνιες κήπου",
-        "Έπιπλα εξωτερικού χώρου > Πανιά πολυθρόνας σκηνοθέτη",
-        "Έπιπλα εσωτερικού χώρου > Ανάκλινδρα",
-        "Έπιπλα εσωτερικού χώρου > Καλόγεροι - Κρεμάστρες",
-        "Έπιπλα εσωτερικού χώρου > Οργάνωση σπιτιού",
-        "Έπιπλα εσωτερικού χώρου > Παιδικό Δωμάτιο",
-        "Έπιπλα εσωτερικού χώρου > Πουφ",
-        "Έπιπλα εσωτερικού χώρου > Σκαμπό μπαρ",
-    ]
-    console.log(xml2js)
-    return
-    xml2js.pakoworld.products.product.map(product => {
-        replaceableObjects.map(item => {
-            if (product.category._cdata === item.from) {
-                product.category._cdata = item.to
-            }
-            if (product.name._cdata) {
-                product.name._cdata = product.name._cdata
-                    .replace(/pakoworld/g, "")
-                    .replace(/\s+/g, ' ').trim();
-            }
-            if (product.description._cdata) {
-                product.description._cdata = product.description._cdata
-                    .replace('<img src="/image/catalog/Icons/assembly-icon.png" style="border-width: 0px; border-style: solid; margin-left: 3px; margin-right: 3px; float: left; height: 35px; width: 35px;" valign="center" alt="Οδηγίες συναρμολόγησης" title="Οδηγίες συναρμολόγησης"><br /><br />', "")
-                    .replace('href="/image/catalog/manuals/', 'href="https://www.pakoworld.com/image/catalog/manuals/')
-                    .replace(/\s+/g, ' ').trim();
-            }
-        })
-    })
 
     if (args.filter === "on") {
-        xml2js.pakoworld.products.product = xml2js.pakoworld.products.product.filter(product => {
-            if (!filteredObject.includes(product.category._cdata)) {
+        xml2js.NewDataSet.Table = xml2js.NewDataSet.Table.filter(product => {
+            let mutchedProduct = null
+            replaceableObjects.forEach(item => {
+                if (item.from === product.Category_Caption_Title._text) {
+                    mutchedProduct = product
+                }
+            })
+            if (mutchedProduct) {
                 return product
             }
         })
     }
 
+    xml2js.NewDataSet.Table.map(product => {
+        switch (product.Category_Caption_Title._text) {
+            case "Καναπέδες-Πολυθρόνες & Σκαμπώ Κρεβάτι":
+                if (product.ProductCaption_Title._text.search('Μπουφές') !== -1) {
+                    product.Category_Caption_Title._text = "Μπουφέδες"
+                }
+                break
+            case "Μπουφέδες - Βιβλιοθήκες - Ραφιέρες - Βιτρίνες":
+                if (product.ProductCaption_Title._text.search('Μπουφές') !== -1) {
+                    product.Category_Caption_Title._text = "Μπουφέδες"
+                }
+                break
+            case "Κομοδίνα-Συρταριέρες-Τουαλέτες-Ντουλάπες":
+                if (product.ProductCaption_Title._text.search('Κομοδίνο') !== -1) {
+                    product.Category_Caption_Title._text = "Κομοδίνα"
+                }
+                if (product.ProductCaption_Title._text.search('Συρταριέρα') !== -1) {
+                    product.Category_Caption_Title._text = "Συρταριέρες"
+                }
+                if (product.ProductCaption_Title._text.search('Ντουλάπα') !== -1) {
+                    product.Category_Caption_Title._text = "Ντουλάπες"
+                }
+                break
+            case "Παπουτσοθήκες-Καλόγεροι-Καθρέπτες":
+                if (product.ProductCaption_Title._text.search('Παπουτσοθήκη') !== -1) {
+                    product.Category_Caption_Title._text = "Παπουτσοθήκες"
+                }
+                if (product.ProductCaption_Title._text.search('Καθρέπτης') !== -1) {
+                    product.Category_Caption_Title._text = "Καθρέπτες"
+                }
+                break
+            case "Καναπέδες - Καρέκλες - Πολυθρόνες":
+                if (product.ProductCaption_Title._text.search('Καρέκλα') !== -1) {
+                    product.Category_Caption_Title._text = "Καρέκλες Κήπου"
+                }
+                if (product.ProductCaption_Title._text.search('Πολυθρόνα') !== -1) {
+                    product.Category_Caption_Title._text = "Πολυθρόνες Κήπου"
+                }
+                break
+            case "Σαλόνια-Καναπέδες-Πολυθρόνες-Μπερζέρες-Ταμπουρέ":
+                const searchTextLists1 = ['Σαλόνι', 'Καναπές']
+                const searchTextLists2 = ['Πολυθρόνα', 'Μπερζέρα']
+                const searchTextLists3 = ['Σκαμπό', 'Υποπόδιο']
+                searchTextLists1.map(searchTextList => {
+                    if (product.ProductCaption_Title._text.search(searchTextList) !== -1) {
+                        product.Category_Caption_Title._text = 'Καναπέδες'
+                    }
+                })
+                searchTextLists2.map(searchTextList => {
+                    if (product.ProductCaption_Title._text.search(searchTextList) !== -1) {
+                        product.Category_Caption_Title._text = 'Πολυθρόνες Σαλονιού'
+                    }
+                })
+                searchTextLists3.map(searchTextList => {
+                    if (product.ProductCaption_Title._text.search(searchTextList) !== -1) {
+                        product.Category_Caption_Title._text = 'Σκαμπό'
+                    }
+                })
+                break
+            default:
+                replaceableObjects.map(item => {
+                    if (product.Category_Caption_Title._text === item.from) {
+                        product.Category_Caption_Title._text = item.to
+                    }
+                })
+        }
+    })
+
+    console.log(xml2js.NewDataSet.Table.length)
     const js2xml = convert.js2xml(xml2js, {compact: true, ignoreComment: true, spaces: 4});
-
     fs.writeFileSync(newXMLPath, js2xml)
-
 }
 
 async function getXMLFromUrl() {
@@ -134,12 +141,15 @@ async function getXMLFromFile(fileName) {
     console.timeEnd('time')
 }
 
-if (args.type === 'file') {
-    if (fs.existsSync(originalXMLPath)) {
-        getXMLFromFile(originalXMLPath).then()
+
+export default function initZougris() {
+    if (args.type === 'file') {
+        if (fs.existsSync(originalXMLPath)) {
+            getXMLFromFile(originalXMLPath).then()
+        } else {
+            getXMLFromUrl().then()
+        }
     } else {
         getXMLFromUrl().then()
     }
-} else {
-    getXMLFromUrl().then()
 }

@@ -1,6 +1,8 @@
 import Yargs from 'yargs'
-import initPakoworldt from "./providers/pakoworld/index.js";
+import initPakoworld from "./providers/pakoworld/index.js";
 import initWoodmart from "./providers/woodwell/index.js";
+import initZougris from "./providers/zougris/index.js";
+import initMegapap from "./providers/megapap/index.js";
 
 
 const args = Yargs(process.argv).argv
@@ -8,13 +10,16 @@ const args = Yargs(process.argv).argv
 if (args?.provider) {
     switch (args.provider) {
         case 'pakoworld':
-            initPakoworldt()
+            initPakoworld()
             break
         case 'woodwell':
             initWoodmart()
             break
         case 'zougris':
-            initPakoworldt()
+            initZougris()
+            break
+        case 'megapap':
+            initMegapap()
             break
         default:
             console.log('No Such Provider')

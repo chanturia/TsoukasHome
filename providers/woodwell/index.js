@@ -118,8 +118,8 @@ function generateLocalXmlFile(xml) {
                 })
         }
     })
+    console.log(`${xml2js.NewDataSet.Table.length} Products`)
 
-    console.log(xml2js.NewDataSet.Table.length)
     const js2xml = convert.js2xml(xml2js, {compact: true, ignoreComment: true, spaces: 4});
     fs.writeFileSync(newXMLPath, js2xml)
 }
