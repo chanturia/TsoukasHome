@@ -5,8 +5,8 @@ import axios from "axios";
 
 const args = Yargs(process.argv).argv
 const XML_link = "https://alphab2b.gr/customxml/index/xml/reseller/el"
-const newXMLPath = './providers/Alphab2b/newXML.xml'
-const originalXMLPath = './providers/Alphab2b/originalXML.xml'
+const newXMLPath = './providers/alphab2b/newXML.xml'
+const originalXMLPath = './providers/alphab2b/originalXML.xml'
 
 
 function generateLocalXmlFile(xml) {

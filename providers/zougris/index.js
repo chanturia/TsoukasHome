@@ -30,38 +30,38 @@ function generateLocalXmlFile(xml) {
         {from: "ΚΡΕΒΑΤΙΑ-ΚΟΜΟΔΙΝΑ", top: ""},
     ]
 
-    // if (args.filter === "on") {
-    //     xml2js.aidonitsa.products.product = xml2js.aidonitsa.products.product.filter(product => {
-    //         let mutchedProduct = null
-    //         replaceableObjects.forEach(item => {
-    //             if (product.Category3 && item.from === product.Category3?._cdata.trim()) {
-    //                 mutchedProduct = product
-    //             }
-    //         })
-    //         if (mutchedProduct) {
-    //             return product
-    //         }
-    //     })
-    // }
+    if (args.filter === "on") {
+        xml2js.Products.Product = xml2js.Products.Product.filter(product => {
+            let mutchedProduct = null
+            replaceableObjects.forEach(item => {
+                if (product.Category3 && item.from === product.Category3?._cdata.trim()) {
+                    mutchedProduct = product
+                }
+            })
+            if (mutchedProduct) {
+                return product
+            }
+        })
+    }
 
-    // xml2js.aidonitsa.products.product.map(product => {
-    //     if (!product.Category3) return
-    //     switch (product.Category3._cdata.trim()) {
-    //         case "ΚΡΕΒΑΤΙΑ-ΚΟΜΟΔΙΝΑ":
-    //             if (product.Title._cdata.search(/ΚΟΜΟΔΙΝΟ/i) !== -1) {
-    //                 product.Category3._cdata = "Κομοδίνα"
-    //             } else {
-    //                 product.Category3._cdata = "Κρεβάτια"
-    //             }
-    //             break
-    //         default:
-    //             replaceableObjects.map(item => {
-    //                 if (product.Category3._cdata === item.from) {
-    //                     product.Category3._cdata = item.to
-    //                 }
-    //             })
-    //     }
-    // })
+    xml2js.Products.Product.map(product => {
+        if (!product.Category3) return
+        switch (product.Category3._cdata.trim()) {
+            case "ΚΡΕΒΑΤΙΑ-ΚΟΜΟΔΙΝΑ":
+                if (product.Title._cdata.search(/ΚΟΜΟΔΙΝΟ/i) !== -1) {
+                    product.Category3._cdata = "Κομοδίνα"
+                } else {
+                    product.Category3._cdata = "Κρεβάτια"
+                }
+                break
+            default:
+                replaceableObjects.map(item => {
+                    if (product.Category3._cdata === item.from) {
+                        product.Category3._cdata = item.to
+                    }
+                })
+        }
+    })
 
     console.log(`${xml2js.Products.Product.length} Products`)
     const js2xml = convert.js2xml(xml2js, {compact: true, ignoreComment: true, spaces: 4});

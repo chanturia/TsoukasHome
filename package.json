@@ -10,7 +10,11 @@
     "start-pakoworld-url": "node index.js --provider=pakoworld --filter=on --type=url",
     "start-pakoworld-local": "node index.js --provider=pakoworld --filter=on --type=file",
     "start-zougris-url": "node index.js --provider=zougris --filter=on --type=url",
-    "start-zougris-local": "node index.js --provider=zougris --filter=on --type=file"
+    "start-zougris-local": "node index.js --provider=zougris --filter=on --type=file",
+    "start-alphab2b-url": "node index.js --provider=alphab2b --filter=on --type=url",
+    "start-alphab2b-local": "node index.js --provider=alphab2b --filter=on --type=file",
+    "start-megapap-url": "node index.js --provider=megapap --filter=on --type=url",
+    "start-megapap-local": "node index.js --provider=megapap --filter=on --type=file"
   },
   "keywords": [],
   "author": "",

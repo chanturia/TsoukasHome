@@ -3,7 +3,8 @@ import initPakoworld from "./providers/pakoworld/index.js";
 import initWoodmart from "./providers/woodwell/index.js";
 import initZougris from "./providers/zougris/index.js";
 import initMegapap from "./providers/megapap/index.js";
-import initAlphab2b from "./providers/Alphab2b/index.js";
+import initAlphab2b from "./providers/alphab2b/index.js";
+import initPolib2b from "./providers/polib2b/index.js";
 
 
 const args = Yargs(process.argv).argv
@@ -22,8 +23,11 @@ if (args?.provider) {
         case 'megapap':
             initMegapap()
             break
-        case 'Alphab2b':
+        case 'alphab2b':
             initAlphab2b()
+            break
+        case 'polib2b':
+            initPolib2b()
             break
         default:
             console.log('No Such Provider')
