@@ -14,7 +14,9 @@
     "start-alphab2b-url": "node index.js --provider=alphab2b --filter=on --type=url",
     "start-alphab2b-local": "node index.js --provider=alphab2b --filter=on --type=file",
     "start-megapap-url": "node index.js --provider=megapap --filter=on --type=url",
-    "start-megapap-local": "node index.js --provider=megapap --filter=on --type=file"
+    "start-megapap-local": "node index.js --provider=megapap --filter=on --type=file",
+    "start-polib2b-url": "node index.js --provider=polib2b --filter=on --type=url",
+    "start-polib2b-local": "node index.js --provider=polib2b --filter=on --type=file"
   },
   "keywords": [],
   "author": "",
