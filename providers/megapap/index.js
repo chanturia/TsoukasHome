@@ -61,7 +61,22 @@ function generateLocalXmlFile(xml) {
     }
 
 
-    xml2js.megapap.products.product.map(product => {
+    xml2js.megapap.products.product.map((product) => {
+        /*Create new field for attributes*/
+        if (product.filters && Array.isArray(product.filters.filter)) {
+            product.filters.filter.map(filter => {
+                filter.newValue = {
+                    _attributes: {id: filter.group._attributes.id},
+                    _text: filter.value._text
+                }
+            })
+        } else if (product.filters) {
+            product.filters.filter.newValue = {
+                _attributes: {id: product.filters.filter.group._attributes.id},
+                _text: product.filters.filter.value._text
+            }
+        }
+
         switch (product.category._cdata) {
             case "Έπιπλα γραφείου > Καρέκλες γραφείου":
                 if (product.name._cdata.search(/gaming/i) !== -1) {
@@ -86,7 +101,10 @@ function generateLocalXmlFile(xml) {
                     }
                 })
         }
+
     })
+    console.log(xml2js.megapap.products.product[0].filters.filter[0])
+
     console.log(`${xml2js.megapap.products.product.length} Products`)
     const js2xml = convert.js2xml(xml2js, {compact: true, ignoreComment: true, spaces: 4});
 
