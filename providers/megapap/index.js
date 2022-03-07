@@ -103,7 +103,6 @@ function generateLocalXmlFile(xml) {
         }
 
     })
-    console.log(xml2js.megapap.products.product[0].filters.filter[0])
 
     console.log(`${xml2js.megapap.products.product.length} Products`)
     const js2xml = convert.js2xml(xml2js, {compact: true, ignoreComment: true, spaces: 4});
