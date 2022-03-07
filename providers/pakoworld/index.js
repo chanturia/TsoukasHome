@@ -58,27 +58,20 @@ function generateLocalXmlFile(xml) {
         {from: "Φωτισμός > Οροφής", to: "Φωτιστικά Οροφής"}
     ]
 
-    const filteredObject = [
-        "Είδη ταξιδίου > Βαλίτσες ταξιδίου",
-        "Είδη ταξιδίου > Σακίδια πλάτης - Backpacks",
-        "Έπιπλα γραφείου > Reception γραφείου",
-        "Έπιπλα γραφείου > Καρέκλες γραφείου παιδικές",
-        "Έπιπλα γραφείου > Ντουλάπια γραφείου",
-        "Έπιπλα γραφείου > Πολυθρόνες γραφείου",
-        "Έπιπλα γραφείου > Συρταριέρες γραφείου",
-        "Έπιπλα γραφείου > Τραπεζάκια γραφείου",
-        "Έπιπλα γραφείου > Τραπέζια συνεδρίου",
-        "Έπιπλα εξωτερικού χώρου > Έπιπλα catering - συνεδρίου",
-        "Έπιπλα εξωτερικού χώρου > Κούνιες κήπου",
-        "Έπιπλα εξωτερικού χώρου > Πανιά πολυθρόνας σκηνοθέτη",
-        "Έπιπλα εσωτερικού χώρου > Ανάκλινδρα",
-        "Έπιπλα εσωτερικού χώρου > Καλόγεροι - Κρεμάστρες",
-        "Έπιπλα εσωτερικού χώρου > Οργάνωση σπιτιού",
-        "Έπιπλα εσωτερικού χώρου > Παιδικό Δωμάτιο",
-        "Έπιπλα εσωτερικού χώρου > Πουφ",
-        "Έπιπλα εσωτερικού χώρου > Πολυθρόνες - Κρεβάτι",
-        "Έπιπλα εσωτερικού χώρου > Σκαμπό μπαρ",
-    ]
+    if (args.filter === "on") {
+        xml2js.pakoworld.products.product = xml2js.pakoworld.products.product.filter(product => {
+            let mutchedProduct = null
+            replaceableObjects.forEach(item => {
+                if (item.from === product.category._cdata) {
+                    mutchedProduct = product
+                }
+            })
+            if (mutchedProduct) {
+                return product
+            }
+        })
+    }
+
     xml2js.pakoworld.products.product.map(product => {
         replaceableObjects.map(item => {
             if (product.category._cdata === item.from) {
@@ -98,13 +91,6 @@ function generateLocalXmlFile(xml) {
         })
     })
 
-    if (args.filter === "on") {
-        xml2js.pakoworld.products.product = xml2js.pakoworld.products.product.filter(product => {
-            if (!filteredObject.includes(product.category._cdata)) {
-                return product
-            }
-        })
-    }
     console.log(`${xml2js.pakoworld.products.product.length} Products`)
 
     const js2xml = convert.js2xml(xml2js, {compact: true, ignoreComment: true, spaces: 4});
