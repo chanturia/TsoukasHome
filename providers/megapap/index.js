@@ -16,7 +16,7 @@ function generateLocalXmlFile(xml) {
         {from: "Έπιπλα εσωτερικού χώρου > Ντουλάπες ρούχων", to: "Ντουλάπες"},
         {from: "Έπιπλα εσωτερικού χώρου > Καναπέδες - Κρεβάτι", to: "Καναπέδες - Κρεβάτι"},
         {from: "Έπιπλα κήπου > Τραπέζια κήπου", to: "Τραπέζια κήπου"},
-        {from: "Έπιπλα γραφείου > Βιβλιοθήκες γραφείου", to: "Βιβλιοθήκες γραφείου"},
+        {from: "Έπιπλα γραφείου > Βιβλιοθήκες γραφείου", to: ""},
         {from: "Έπιπλα εσωτερικού χώρου > Παπουτσοθήκες", to: "Παπουτσοθήκες"},
         {from: "Έπιπλα εσωτερικού χώρου > Βιβλιοθήκες", to: "Βιβλιοθήκες"},
         {from: "Έπιπλα γραφείου > Γραφεία", to: "Γραφεία"},
@@ -61,7 +61,7 @@ function generateLocalXmlFile(xml) {
     }
 
 
-    xml2js.megapap.products.product.map((product) => {
+    xml2js.megapap.products.product.map((product,index) => {
         /*Create new field for attributes*/
         if (product.filters && Array.isArray(product.filters.filter)) {
             product.filters.filter.map(filter => {
@@ -78,6 +78,14 @@ function generateLocalXmlFile(xml) {
         }
 
         switch (product.category._cdata) {
+            case "Έπιπλα γραφείου > Βιβλιοθήκες γραφείου":
+                console.log(product.category._cdata)
+                if (product.name._cdata.search(/Ντουλάπι - βιβλιοθήκη/i) !== -1) {
+                    product.category._cdata = "Βιβλιοθήκες"
+                } else {
+                    product.category._cdata = "Βιβλιοθήκες γραφείου"
+                }
+                break
             case "Έπιπλα γραφείου > Καρέκλες γραφείου":
                 if (product.name._cdata.search(/gaming/i) !== -1) {
                     product.category._cdata = "Καρέκλες Gaming"
