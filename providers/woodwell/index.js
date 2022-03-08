@@ -51,35 +51,40 @@ function generateLocalXmlFile(xml) {
         })
     }
 
-    xml2js.NewDataSet.Table.map(product => {
+    xml2js.NewDataSet.Table.map((product, index) => {
         switch (product.Category_Caption_Title._text) {
             case "Καναπέδες-Πολυθρόνες & Σκαμπώ Κρεβάτι":
                 if (product.ProductCaption_Title._text.search('Μπουφές') !== -1) {
                     product.Category_Caption_Title._text = "Μπουφέδες"
+                } else {
+                    xml2js.NewDataSet.Table[index] = {}
                 }
                 break
             case "Μπουφέδες - Βιβλιοθήκες - Ραφιέρες - Βιτρίνες":
                 if (product.ProductCaption_Title._text.search('Μπουφές') !== -1) {
                     product.Category_Caption_Title._text = "Μπουφέδες"
+                } else {
+                    xml2js.NewDataSet.Table[index] = null
                 }
                 break
             case "Κομοδίνα-Συρταριέρες-Τουαλέτες-Ντουλάπες":
                 if (product.ProductCaption_Title._text.search('Κομοδίνο') !== -1) {
                     product.Category_Caption_Title._text = "Κομοδίνα"
-                }
-                if (product.ProductCaption_Title._text.search('Συρταριέρα') !== -1) {
+                } else if (product.ProductCaption_Title._text.search('Συρταριέρα') !== -1) {
                     product.Category_Caption_Title._text = "Συρταριέρες"
-                }
-                if (product.ProductCaption_Title._text.search('Ντουλάπα') !== -1) {
+                } else if (product.ProductCaption_Title._text.search('Ντουλάπα') !== -1) {
                     product.Category_Caption_Title._text = "Ντουλάπες"
+                } else {
+                    xml2js.NewDataSet.Table[index] = null
                 }
                 break
             case "Παπουτσοθήκες-Καλόγεροι-Καθρέπτες":
                 if (product.ProductCaption_Title._text.search('Παπουτσοθήκη') !== -1) {
                     product.Category_Caption_Title._text = "Παπουτσοθήκες"
-                }
-                if (product.ProductCaption_Title._text.search('Καθρέπτης') !== -1) {
+                } else if (product.ProductCaption_Title._text.search('Καθρέπτης') !== -1) {
                     product.Category_Caption_Title._text = "Καθρέπτες"
+                } else {
+                    xml2js.NewDataSet.Table[index] = null
                 }
                 break
             case "Καναπέδες - Καρέκλες - Πολυθρόνες":
@@ -91,7 +96,7 @@ function generateLocalXmlFile(xml) {
                 }
                 break
             case "Σαλόνια-Καναπέδες-Πολυθρόνες-Μπερζέρες-Ταμπουρέ":
-                const searchTextLists1 = ['Σαλόνι', 'Καναπές']
+                const searchTextLists1 = ['Σαλόνι', 'Καναπές', 'Kαναπές']
                 const searchTextLists2 = ['Πολυθρόνα', 'Μπερζέρα']
                 const searchTextLists3 = ['Σκαμπό', 'Υποπόδιο']
                 searchTextLists1.map(searchTextList => {
@@ -117,6 +122,10 @@ function generateLocalXmlFile(xml) {
                     }
                 })
         }
+    })
+    /*remove empty products*/
+    xml2js.NewDataSet.Table = xml2js.NewDataSet.Table.filter(product => {
+        return product
     })
     console.log(`${xml2js.NewDataSet.Table.length} Products`)
 
