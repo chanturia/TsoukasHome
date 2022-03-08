@@ -20,9 +20,9 @@ function generateLocalXmlFile(xml) {
         {from: "ΚΑΘΙΣΜΑΤΑ ΥΠΟΔΟΧΗΣ", to: "Καρέκλες υποδοχής"},
         {from: "ΚΑΝΑΠΕΔΕΣ", to: "Καναπέδες"},
         {from: "ΚΑΝΑΠΕΔΕΣ ΚΡΕΒΑΤΙ", to: "Καναπέδες - Κρεβάτι"},
-        {from: "ΚΑΡΕΚΛΕΣ", to: "Καρέκλες"},
+        {from: "ΚΑΡΕΚΛΕΣ", to: ""},
         {from: "ΠΑΠΟΥΤΣΟΘΗΚΕΣ", to: "Παπουτσοθήκες"},
-        {from: "ΠΟΛΥΘΡΟΝΕΣ", to: "Πολυθρόνες Τραπεζαρίας"},
+        {from: "ΠΟΛΥΘΡΟΝΕΣ", to: ""},
         {from: "ΤΡΑΠΕΖΑΚΙΑ ΓΙΑ ΞΑΠΛΩΣΤΡΕΣ", to: "Τραπεζάκια Κήπου"},
         {from: "ΤΡΑΠΕΖΑΚΙΑ ΣΑΛΟΝΙΟΥ", to: "Τραπεζάκια Σαλονιού"},
         {from: "ΤΡΑΠΕΖΑΚΙΑ ΧΑΜΗΛΑ", to: "Τραπεζάκια Κήπου"},
@@ -46,12 +46,27 @@ function generateLocalXmlFile(xml) {
 
     xml2js.Products.Product.map(product => {
         if (!product.Category3) return
-        switch (product.Category3._cdata.trim()) {
+        product.Category3._cdata = product.Category3._cdata.trim()
+        switch (product.Category3._cdata) {
             case "ΚΡΕΒΑΤΙΑ-ΚΟΜΟΔΙΝΑ":
                 if (product.Title._cdata.search(/ΚΟΜΟΔΙΝΟ/i) !== -1) {
                     product.Category3._cdata = "Κομοδίνα"
                 } else {
                     product.Category3._cdata = "Κρεβάτια"
+                }
+                break
+            case "ΚΑΡΕΚΛΕΣ":
+                if (product.Title._cdata.search(/Καρέκλα Τραπεζαρίας/i) !== -1) {
+                    product.Category3._cdata = "Πολυθρόνες Τραπεζαρίας"
+                } else {
+                    product.Category3._cdata = "Καρέκλες"
+                }
+                break
+            case "ΠΟΛΥΘΡΟΝΕΣ":
+                if (product.Title._cdata.search(/ΜΠΕΡΖΕΡΑ/i) !== -1) {
+                    product.Category3._cdata = "Πολυθρόνες Σαλονιού"
+                } else {
+                    product.Category3._cdata = "Πολυθρόνες Τραπεζαρίας"
                 }
                 break
             default:
