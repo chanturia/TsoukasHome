@@ -60,6 +60,10 @@ function generateLocalXmlFile(xml) {
                     }
                 })
         }
+
+        if (product.manual){
+            product.short_description._cdata =`<strong>Οδηγός Συναρμολόγησης</strong><a href="${product.manual._cdata}" target="_blank">εδώ</a> <br> ${product.short_description._cdata}`
+        }
     })
 
     console.log(`${xml2js.aidonitsa.products.product.length} Products`)
