@@ -57,12 +57,16 @@ function generateLocalXmlFile(xml) {
                 if (product.ProductCaption_Title._text.search('Μπουφές') !== -1) {
                     product.Category_Caption_Title._text = "Μπουφέδες"
                 } else {
-                    xml2js.NewDataSet.Table[index] = {}
+                    xml2js.NewDataSet.Table[index] = null
                 }
                 break
             case "Μπουφέδες - Βιβλιοθήκες - Ραφιέρες - Βιτρίνες":
                 if (product.ProductCaption_Title._text.search('Μπουφές') !== -1) {
                     product.Category_Caption_Title._text = "Μπουφέδες"
+                } else if (product.ProductCaption_Title._text.search('Βιβλιοθήκη - Ραφιέρα') !== -1) {
+                    product.Category_Caption_Title._text = "Βιβλιοθήκες"
+                } else if (product.ProductCaption_Title._text.search('ράφι ') !== -1) {
+                    product.Category_Caption_Title._text = "ραφιέρες τοίχου"
                 } else {
                     xml2js.NewDataSet.Table[index] = null
                 }
