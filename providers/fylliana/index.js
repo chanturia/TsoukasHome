@@ -68,10 +68,10 @@ function generateLocalXmlFile(xml) {
         switch (product.category_name._cdata) {
             case "Έπιπλα τηλεόρασης - Συνθέσεις τηλεόρασης":
                 console.log(product)
-                if (product.name._cdata.search(/Καρέκλα/i) !== -1) {
-                    product.category_name._cdata = "Καρέκλες"
-                } else if (product.name._cdata.search(/Πολυθρόνα/i) !== -1) {
-                    product.category_name._cdata = "Πολυθρόνες Τραπεζαρίας"
+                if (product.name._cdata.search(/ΚΕΝΤΡΟ ΨΥΧΑΓΩΓΙΑΣ/i) !== -1) {
+                    product.category_name._cdata = "συνθέσεις σαλονιού"
+                } else{
+                    product.category_name._cdata = "επιπλα τηλεορασης"
                 }
                 break
             default:
