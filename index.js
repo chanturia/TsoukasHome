@@ -5,7 +5,7 @@ import initZougris from "./providers/zougris/index.js";
 import initMegapap from "./providers/megapap/index.js";
 import initAlphab2b from "./providers/alphab2b/index.js";
 import initPolib2b from "./providers/polib2b/index.js";
-import initFylliana from "./providers/fylliana";
+import initFylliana from "./providers/fylliana/index.js";
 
 
 const args = Yargs(process.argv).argv

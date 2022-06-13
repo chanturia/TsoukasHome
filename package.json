@@ -18,7 +18,7 @@
     "start-polib2b-url": "node index.js --provider=polib2b --filter=on --type=url",
     "start-polib2b-local": "node index.js --provider=polib2b --filter=on --type=file",
     "start-fylliana-url": "node index.js --provider=fylliana --filter=on --type=url",
-    "start-fylliana-local": "node --experimental-specifier-resolution=node index.js --provider=fylliana --filter=on --type=file"
+    "start-fylliana-local": "node index.js --provider=fylliana --filter=on --type=file"
   },
   "keywords": [],
   "author": "",
