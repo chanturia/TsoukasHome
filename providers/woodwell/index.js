@@ -54,48 +54,48 @@ function generateLocalXmlFile(xml) {
     xml2js.NewDataSet.Table.map((product, index) => {
         switch (product.Category_Caption_Title._text) {
             case "Καναπέδες-Πολυθρόνες & Σκαμπώ Κρεβάτι":
-                if (product.ProductCaption_Title._text.search('Μπουφές') !== -1) {
+                if (product.ProductCaption_Title._text && product.ProductCaption_Title._text.search('Μπουφές') !== -1) {
                     product.Category_Caption_Title._text = "Μπουφέδες"
                 } else {
                     xml2js.NewDataSet.Table[index] = null
                 }
                 break
             case "Μπουφέδες - Βιβλιοθήκες - Ραφιέρες - Βιτρίνες":
-                if (product.ProductCaption_Title._text.search('Μπουφές') !== -1) {
+                if (product.ProductCaption_Title._text && product.ProductCaption_Title._text.search('Μπουφές') !== -1) {
                     product.Category_Caption_Title._text = "Μπουφέδες"
-                } else if (product.ProductCaption_Title._text.search('Βιβλιοθήκη - Ραφιέρα') !== -1) {
+                } else if (product.ProductCaption_Title._text && product.ProductCaption_Title._text.search('Βιβλιοθήκη - Ραφιέρα') !== -1) {
                     product.Category_Caption_Title._text = "Βιβλιοθήκες"
-                } else if (product.ProductCaption_Title._text.search('ράφι ') !== -1) {
+                } else if (product.ProductCaption_Title._text && product.ProductCaption_Title._text.search('ράφι ') !== -1) {
                     product.Category_Caption_Title._text = "ραφιέρες τοίχου"
                 } else {
                     xml2js.NewDataSet.Table[index] = null
                 }
                 break
             case "Κομοδίνα-Συρταριέρες-Τουαλέτες-Ντουλάπες":
-                if (product.ProductCaption_Title._text.search('Κομοδίνο') !== -1) {
+                if (product.ProductCaption_Title._text && product.ProductCaption_Title._text.search('Κομοδίνο') !== -1) {
                     product.Category_Caption_Title._text = "Κομοδίνα"
-                } else if (product.ProductCaption_Title._text.search('Συρταριέρα') !== -1) {
+                } else if (product.ProductCaption_Title._text && product.ProductCaption_Title._text.search('Συρταριέρα') !== -1) {
                     product.Category_Caption_Title._text = "Συρταριέρες"
-                } else if (product.ProductCaption_Title._text.search('Ντουλάπα') !== -1) {
+                } else if (product.ProductCaption_Title && product.ProductCaption_Title._text.search('Ντουλάπα') !== -1) {
                     product.Category_Caption_Title._text = "Ντουλάπες"
                 } else {
                     xml2js.NewDataSet.Table[index] = null
                 }
                 break
             case "Παπουτσοθήκες-Καλόγεροι-Καθρέπτες":
-                if (product.ProductCaption_Title._text.search('Παπουτσοθήκη') !== -1) {
+                if (product.ProductCaption_Title._text && product.ProductCaption_Title._text.search('Παπουτσοθήκη') !== -1) {
                     product.Category_Caption_Title._text = "Παπουτσοθήκες"
-                } else if (product.ProductCaption_Title._text.search('Καθρέπτης') !== -1) {
+                } else if (product.ProductCaption_Title._text && product.ProductCaption_Title._text.search('Καθρέπτης') !== -1) {
                     product.Category_Caption_Title._text = "Καθρέπτες"
                 } else {
                     xml2js.NewDataSet.Table[index] = null
                 }
                 break
             case "Καναπέδες - Καρέκλες - Πολυθρόνες":
-                if (product.ProductCaption_Title._text.search('Καρέκλα') !== -1) {
+                if (product.ProductCaption_Title._text && product.ProductCaption_Title._text.search('Καρέκλα') !== -1) {
                     product.Category_Caption_Title._text = "Καρέκλες Κήπου"
                 }
-                if (product.ProductCaption_Title._text.search('Πολυθρόνα') !== -1) {
+                if (product.ProductCaption_Title._text && product.ProductCaption_Title._text.search('Πολυθρόνα') !== -1) {
                     product.Category_Caption_Title._text = "Πολυθρόνες Κήπου"
                 }
                 break
@@ -104,24 +104,24 @@ function generateLocalXmlFile(xml) {
                 const searchTextLists2 = ['Πολυθρόνα', 'Μπερζέρα']
                 const searchTextLists3 = ['Σκαμπό', 'Υποπόδιο']
                 searchTextLists1.map(searchTextList => {
-                    if (product.ProductCaption_Title._text.search(searchTextList) !== -1) {
+                    if (product.ProductCaption_Title._text && product.ProductCaption_Title._text.search(searchTextList) !== -1) {
                         product.Category_Caption_Title._text = 'Καναπέδες'
                     }
                 })
                 searchTextLists2.map(searchTextList => {
-                    if (product.ProductCaption_Title._text.search(searchTextList) !== -1) {
+                    if (product.ProductCaption_Title._text && product.ProductCaption_Title._text.search(searchTextList) !== -1) {
                         product.Category_Caption_Title._text = 'Πολυθρόνες Σαλονιού'
                     }
                 })
                 searchTextLists3.map(searchTextList => {
-                    if (product.ProductCaption_Title._text.search(searchTextList) !== -1) {
+                    if (product.ProductCaption_Title._text && product.ProductCaption_Title._text.search(searchTextList) !== -1) {
                         product.Category_Caption_Title._text = 'Σκαμπό'
                     }
                 })
                 break
             default:
                 replaceableObjects.map(item => {
-                    if (product.Category_Caption_Title._text === item.from) {
+                    if (product.ProductCaption_Title._text && product.Category_Caption_Title._text === item.from) {
                         product.Category_Caption_Title._text = item.to
                     }
                 })
