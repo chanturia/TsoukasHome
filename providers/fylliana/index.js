@@ -67,7 +67,6 @@ function generateLocalXmlFile(xml) {
     xml2js.product_feed.products.product.map(product => {
         switch (product.category_name._cdata) {
             case "Έπιπλα τηλεόρασης - Συνθέσεις τηλεόρασης":
-                console.log(product)
                 if (product.name._cdata.search(/ΚΕΝΤΡΟ ΨΥΧΑΓΩΓΙΑΣ/i) !== -1) {
                     product.category_name._cdata = "συνθέσεις σαλονιού"
                 } else{
