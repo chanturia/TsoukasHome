@@ -51,6 +51,12 @@ function generateLocalXmlFile(xml) {
         })
     }
 
+    xml2js.NewDataSet.Table = xml2js.NewDataSet.Table.filter(product => {
+        if (parseInt(product.WholesalePrice._text) >= 100) {
+            return product
+        }
+    })
+
     xml2js.NewDataSet.Table.map((product, index) => {
         switch (product.Category_Caption_Title._text) {
             case "Καναπέδες-Πολυθρόνες & Σκαμπώ Κρεβάτι":
