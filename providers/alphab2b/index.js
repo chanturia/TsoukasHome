@@ -4,7 +4,7 @@ import Yargs from 'yargs'
 import axios from "axios";
 
 const args = Yargs(process.argv).argv
-const XML_link = "https://alphab2b.gr/customxml/index/xml/reseller/el"
+const XML_link = "https://www.alphab2b.gr/index.php?route=extension%2Ffeed%2Fxmlfeed&lang_id=2&customer_group_id=4&fbclid=IwAR0zLJBkTHhiDbYlE_Gxwo96bCMlpr4AlZa1glpUPdGerob0ND2Pn3N-fxM"
 const newXMLPath = './providers/alphab2b/newXML.xml'
 const originalXMLPath = './providers/alphab2b/originalXML.xml'
 
@@ -38,7 +38,7 @@ function generateLocalXmlFile(xml) {
     ]
 
     if (args.filter === "on") {
-        xml2js.aidonitsa.products.product = xml2js.aidonitsa.products.product.filter(product => {
+        xml2js.products.product = xml2js.products.product.filter(product => {
             let mutchedProduct = null
             replaceableObjects.forEach(item => {
                 if (product.category && item.from === product.category?._cdata.trim()) {
@@ -51,7 +51,7 @@ function generateLocalXmlFile(xml) {
         })
     }
 
-    xml2js.aidonitsa.products.product.map(product => {
+    xml2js.products.product.map(product => {
         switch (product.category._cdata) {
             default:
                 replaceableObjects.map(item => {
@@ -62,11 +62,11 @@ function generateLocalXmlFile(xml) {
         }
 
         if (product.manual){
-            product.short_description._cdata =`<strong>Οδηγός Συναρμολόγησης</strong><a href="${product.manual._cdata}" target="_blank">εδώ</a> <br> ${product.short_description._cdata}`
+            product.description._cdata =`<strong>Οδηγός Συναρμολόγησης</strong><a href="${product.manual._cdata}" target="_blank">εδώ</a> <br> ${product.description._cdata}`
         }
     })
 
-    console.log(`${xml2js.aidonitsa.products.product.length} Products`)
+    console.log(`${xml2js.products.product.length} Products`)
     const js2xml = convert.js2xml(xml2js, {compact: true, ignoreComment: true, spaces: 4});
     fs.writeFileSync(newXMLPath, js2xml)
 }
